@@ -1,0 +1,25 @@
+user www-data;
+worker_processes {{ nginx_worker_processes }};
+pid /run/nginx.pid;
+
+events {
+    worker_connections {{ nginx_worker_connections }};
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout {{ nginx_keepalive_timeout }};
+
+    server {
+        listen {{ nginx_listen_port }} default_server;
+        server_name {{ nginx_server_name }};
+        root /var/www/html;
+
+        location / {
+            return 200 '{{ nginx_response_message }}\n';
+            add_header Content-Type text/plain;
+        }
+    }
+}

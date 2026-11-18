@@ -1,0 +1,38 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: ${MOLECULE_PROJECT_DIRECTORY}/requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: nginx01
+    image: ansible-nginx-test:latest
+    pre_build_image: true
+    command: /bin/bash -c "sleep infinity"
+  - name: nginx02
+    image: ansible-nginx-test:latest
+    pre_build_image: true
+    command: /bin/bash -c "sleep infinity"
+ansible:
+  cfg:
+    defaults:
+      roles_path: ${MOLECULE_PROJECT_DIRECTORY}/roles
+      vault_password_file: ${MOLECULE_PROJECT_DIRECTORY}/.vault_pass
+  playbooks:
+    converge: converge.yml
+    verify: verify.yml
+provisioner:
+  name: ansible
+scenario:
+  test_sequence:
+    - dependency
+    - destroy
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - verify
+    - destroy
+verifier:
+  name: ansible

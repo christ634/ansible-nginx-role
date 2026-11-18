@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Christopher Cardozo
+  description: Instala y configura Nginx mediante una plantilla Jinja2.
+  company: Independiente
+  license: MIT
+  min_ansible_version: "2.14"
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+  galaxy_tags:
+    - nginx
+    - webserver
+    - molecule
+    - ansible
+dependencies: []

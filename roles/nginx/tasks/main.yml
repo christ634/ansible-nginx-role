@@ -1,0 +1,25 @@
+---
+- name: Cargar secretos cifrados
+  ansible.builtin.include_vars: vault.yml
+
+- name: Instalar nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Renderizar configuración principal
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: "0644"
+    validate: nginx -t -c %s
+  notify: Reiniciar nginx
+
+- name: Asegurar que nginx esté activo
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true

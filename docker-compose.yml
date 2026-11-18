@@ -1,0 +1,16 @@
+services:
+  nginx01:
+    container_name: nginx01
+    hostname: nginx01
+    image: ansible-nginx-test:latest
+    command: /bin/bash -c "sleep infinity"
+    ports:
+      - "8081:80"
+
+  nginx02:
+    container_name: nginx02
+    hostname: nginx02
+    image: ansible-nginx-test:latest
+    command: /bin/bash -c "sleep infinity"
+    ports:
+      - "8082:80"

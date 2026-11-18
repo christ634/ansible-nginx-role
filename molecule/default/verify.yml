@@ -1,0 +1,23 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - ../../roles/nginx/vars/vault.yml
+  tasks:
+    - name: Validar configuración de nginx
+      ansible.builtin.command: nginx -t
+      register: nginx_test
+      changed_when: false
+      failed_when: false
+
+    - name: Leer configuración renderizada
+      ansible.builtin.slurp:
+        src: /etc/nginx/nginx.conf
+      register: nginx_conf
+
+    - name: Comprobar resultados
+      ansible.builtin.assert:
+        that:
+          - nginx_test.rc == 0
+          - nginx_response_message in (nginx_conf.content | b64decode)
