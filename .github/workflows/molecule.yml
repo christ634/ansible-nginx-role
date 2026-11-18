@@ -1,0 +1,36 @@
+name: Molecule
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  molecule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+          ansible-galaxy collection install -r requirements.yml
+
+      - name: Prepare Vault
+        run: |
+          python -c "import secrets; print(secrets.token_hex(24))" > .vault_pass
+          chmod 600 .vault_pass
+          printf '%s\n' 'nginx_response_message: "Hola desde Ansible Vault"' > roles/nginx/vars/vault.yml
+          ansible-vault encrypt roles/nginx/vars/vault.yml
+
+      - name: Build test image
+        run: docker build -t ansible-nginx-test:latest .
+
+      - name: Run Molecule
+        run: molecule test

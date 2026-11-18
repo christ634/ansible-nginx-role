@@ -1,5 +1,7 @@
 # ansible-nginx-role
 
+[![Molecule](https://github.com/christ634/ansible-nginx-role/actions/workflows/molecule.yml/badge.svg)](https://github.com/christ634/ansible-nginx-role/actions/workflows/molecule.yml)
+
 Rol de Ansible listo para portafolio que instala y configura Nginx en dos hosts locales basados en Docker. Incluye una plantilla Jinja2, secretos cifrados con `ansible-vault` y pruebas automatizadas con Molecule.
 
 ## Qué incluye
@@ -99,6 +101,10 @@ molecule test
 ```
 
 El escenario ejecuta `converge.yml` y luego `verify.yml`, que valida la sintaxis de Nginx y que la plantilla Jinja2 renderizó el valor cifrado.
+
+## CI
+
+El workflow `.github/workflows/molecule.yml` ejecuta `molecule test` en cada push y pull request. Como la contraseña de Vault no se versiona, el job genera una propia y vuelve a cifrar `vault.yml` dentro del runner.
 
 ## Limpieza
 
