@@ -6,11 +6,11 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: nginx01
+  - name: molecule-nginx01
     image: ansible-nginx-test:latest
     pre_build_image: true
     command: /bin/bash -c "sleep infinity"
-  - name: nginx02
+  - name: molecule-nginx02
     image: ansible-nginx-test:latest
     pre_build_image: true
     command: /bin/bash -c "sleep infinity"

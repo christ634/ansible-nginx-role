@@ -8,7 +8,7 @@ Rol de Ansible listo para portafolio que instala y configura Nginx en dos hosts 
 - Plantilla `nginx.conf.j2` parametrizada con Jinja2.
 - Variable sensible cifrada con `ansible-vault` en `roles/nginx/vars/vault.yml`.
 - Inventario con dos hosts: `nginx01` y `nginx02`.
-- Escenario Molecule con los mismos dos hosts para converge y verify.
+- Escenario Molecule con dos hosts efímeros independientes para converge y verify.
 - Imagen Docker base construida desde `Dockerfile`.
 
 ## Estructura
